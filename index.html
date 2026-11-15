@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="頭サプリのダウンロードページです。iPhone・iPadはApp Store、AndroidはGoogle Playから入手できます。">
+  <meta name="theme-color" content="#fff8e7">
+  <title>頭サプリをダウンロード</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      background: #fff8e7;
+      color: #21392b;
+      font: 1.125rem/1.6 system-ui, 'Hiragino Sans', Meiryo, sans-serif;
+    }
+    main {
+      width: min(100%, 29rem);
+      padding: clamp(24px, 7vw, 44px);
+      border: 1px solid #d8e4d9;
+      border-radius: 24px;
+      background: #fff;
+      text-align: center;
+    }
+    h1 { margin: 0; font-size: clamp(2rem, 8vw, 2.75rem); line-height: 1.2; }
+    p { margin: 16px 0 24px; }
+    nav { display: grid; gap: 12px; }
+    a {
+      display: grid;
+      padding: 12px;
+      border-radius: 12px;
+      background: #275b40;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    a:hover { background: #19442d; }
+    a:focus-visible { outline: 3px solid #275b40; outline-offset: 4px; }
+    a span { font-size: .875rem; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>頭サプリ</h1>
+    <p id="message">お使いの端末に合ったストアを選んでください。</p>
+    <nav aria-label="ダウンロード先">
+      <a id="app-store" href="https://apps.apple.com/jp/app/id6761757975">App Storeで入手<span>iPhone・iPad</span></a>
+      <a id="google-play" href="https://play.google.com/store/apps/details?id=com.atamanosupli.atama_no_supli">Google Playで入手<span>Android</span></a>
+    </nav>
+  </main>
+  <script>
+    const userAgent = navigator.userAgent;
+    const platform = navigator.userAgentData?.platform;
+    const isAndroid = platform === 'Android' || /Android/i.test(userAgent);
+    // iPadOS can report a desktop Mac user agent in Safari.
+    const isIPadDesktop = /Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1;
+    const isIOS = /iPhone|iPad|iPod/i.test(userAgent) || isIPadDesktop;
+
+    if (isAndroid || isIOS) {
+      const storeName = isAndroid ? 'Google Play' : 'App Store';
+      const link = document.getElementById(isAndroid ? 'google-play' : 'app-store');
+      document.getElementById('message').textContent = `${storeName}を開いています。開かない場合は、下のボタンを押してください。`;
+      window.location.replace(link.href);
+    }
+  </script>
+</body>
+</html>
